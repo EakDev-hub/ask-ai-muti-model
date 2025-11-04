@@ -1,0 +1,38 @@
+# Docker Compose configuration for development with hot-reload
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+version: '3.8'
+
+services:
+  # Backend Development Override
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    volumes:
+      # Mount source code for hot reload
+      - ./backend:/app
+      # Preserve node_modules
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - FRONTEND_URL=http://localhost:5173
+    command: npm run dev
+
+  # Frontend Development Override
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    volumes:
+      # Mount source code for hot reload
+      - ./frontend:/app
+      # Preserve node_modules
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:3001/api
+    command: npm run dev

@@ -1,0 +1,25 @@
+# Backend Development Dockerfile for AI Chat Application
+# Includes development dependencies and nodemon for hot-reload
+
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install all dependencies (including devDependencies)
+RUN npm install
+
+# Copy application source (will be overridden by volume mount)
+COPY . .
+
+# Expose port
+EXPOSE 3001
+
+# Set environment to development
+ENV NODE_ENV=development
+
+# Use nodemon for hot-reload
+CMD ["npm", "run", "dev"]

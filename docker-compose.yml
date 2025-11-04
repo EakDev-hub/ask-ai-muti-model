@@ -1,0 +1,63 @@
+# Docker Compose configuration for AI Chat Application
+# Version 3.8 for modern Docker features
+
+version: '3.8'
+
+services:
+  # Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ai-chat-backend
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - FRONTEND_URL=http://localhost
+    networks:
+      - ai-chat-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    volumes:
+      # Mount for logs (optional)
+      - backend-logs:/app/logs
+
+  # Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:3001/api
+    container_name: ai-chat-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - ai-chat-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  ai-chat-network:
+    driver: bridge
+    name: ai-chat-network
+
+volumes:
+  backend-logs:
+    name: ai-chat-backend-logs
