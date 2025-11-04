@@ -1,66 +1,72 @@
-# gitignore template for ecu.test workspaces - by tracetronic https://tracetronic.com
-# website: https://www.ecu-test.com
-#   * all directories are related to the default directories, please adapt the .gitignore if you use customized directories
+# Dependencies
+node_modules/
+backend/node_modules/
+frontend/node_modules/
 
-# Dynamic workspace settings
-#   * We don't recommend to ignore the .workspace directory, because of important 
-#     * project specific settings
-#     * local user settings
-.workspace/ETdrive.xml
-.workspace/favorites.xml
-.workspace/filters.xml
-.workspace/generators.xml
-.workspace/history.xml
-.workspace/parallelExecution.xml
-.workspace/signalviewer.xml
-.workspace/signalViewerHistory.json
-.workspace/signalviewer2layout.xml
-.workspace/testeditor.xml
-.workspace/tooladapter.xml
-.workspace/view.xml
-# optional, if your process depends on this file remove exclusion
-.workspace/attributeLists.xml
-.workspace/interactiveexecution.xml
-.workspace/protocol.xml
-.workspace/pythonlibrary.xml
-# deprecated, support for older versions
-.workspace/traceexplorer.xml
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+backend/.env
+frontend/.env
 
-# Custom file formats and test dependencies
-#  * you can manage your artifacts also with test.guide (https://www.test-guide.info) and reference them via Playbooks
-*.arxml
-*.a2l
-*.dbc
-*.hex
-*.s19
-[tT]estdata
-[tT]estdaten
+# Build outputs
+dist/
+build/
+frontend/dist/
+frontend/build/
+backend/dist/
+backend/build/
 
-# Test results and test execution related content
-#   * Git is not intended to store and provide test results for all iterations
-#   * We recommend to use test.guide (https://www.test-guide.info) for the test report management
-TestReports
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# Report generators and templates
-#   * if you want to provide (f.e.) your own report generators exclude the directory here and ignore only the unnecessary subdirectories
-Templates
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
-# optional, default for external Python libraries
-PyLibs
+# Testing
+coverage/
+.nyc_output/
 
-# Exclude large binary artifacts
-#  * you can manage your artifacts also with test.guide (https://www.test-guide.info) and reference them via Playbooks
-Offline-FIUs
-Offline-Models
-Offline-SGBDs
-*.exe
-*.msi
-*.zip
-*.7z
+# Docker
+.dockerignore
 
-# Exclude default and custom temporary directories
-Backup_*
+# Temporary files
+*.tmp
+*.temp
+.cache/
 
-# Python bytecode and cache files
-__pycache__/
-*.py[cod]
+# OS files
+Thumbs.db
+.DS_Store
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
