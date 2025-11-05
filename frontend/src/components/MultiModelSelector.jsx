@@ -92,7 +92,9 @@ const MultiModelSelector = ({
     }),
     menuList: (provided) => ({
       ...provided,
-      padding: '4px'
+      padding: '4px',
+      maxHeight: '250px',
+      overflowY: 'auto'
     }),
     option: (provided, state) => ({
       ...provided,
@@ -155,10 +157,7 @@ const MultiModelSelector = ({
           ℹ️ Maximum {maxModels} models selected
         </p>
       )}
-      
-      <p className="helper-text">
-        💡 Tip: Use the search box to quickly find models
-      </p>
+    
     </div>
   );
 };

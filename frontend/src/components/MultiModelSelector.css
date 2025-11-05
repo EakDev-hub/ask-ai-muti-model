@@ -91,6 +91,26 @@
   background-color: rgba(102, 126, 234, 0.1) !important;
 }
 
+/* Custom scrollbar styling for dropdown menu */
+.select__menu-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.select__menu-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.select__menu-list::-webkit-scrollbar-thumb {
+  background: #667eea;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.select__menu-list::-webkit-scrollbar-thumb:hover {
+  background: #5a67d8;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

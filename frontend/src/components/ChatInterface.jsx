@@ -2,31 +2,63 @@ import { useState, useEffect, useRef } from 'react';
 import { sendMessage, getModels, sendMultiModelMessage } from '../services/api';
 import ReactMarkdown from 'react-markdown';
 import MultiModelSelector from './MultiModelSelector';
+import { loadPreferences, savePreferences, validateModelSelections } from '../utils/localStorage';
 import './ChatInterface.css';
 
 function ChatInterface() {
+  // Load preferences from localStorage
+  const savedPreferences = loadPreferences();
+  
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
-  const [selectedModel, setSelectedModel] = useState('google/gemini-pro-vision');
-  const [systemPrompt, setSystemPrompt] = useState('You are a helpful AI assistant that can analyze images and answer questions.');
+  const [selectedModel, setSelectedModel] = useState(savedPreferences.selectedModel);
+  const [systemPrompt, setSystemPrompt] = useState(savedPreferences.systemPrompt);
   const [models, setModels] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showSystemPrompt, setShowSystemPrompt] = useState(false);
   
   // Multi-model state
-  const [multiModelMode, setMultiModelMode] = useState(false);
-  const [selectedModels, setSelectedModels] = useState([]);
+  const [multiModelMode, setMultiModelMode] = useState(savedPreferences.multiModelMode);
+  const [selectedModels, setSelectedModels] = useState(savedPreferences.selectedModels);
   const [compareView, setCompareView] = useState('stacked'); // 'stacked' or 'side-by-side'
   
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  // Fetch available models on component mount
+  // Fetch available models on component mount and validate saved selections
   useEffect(() => {
-    fetchModels();
+    const initializeModels = async () => {
+      await fetchModels();
+    };
+    initializeModels();
   }, []);
+
+  // Validate and update selectedModels when models are fetched
+  useEffect(() => {
+    if (models.length > 0 && selectedModels.length > 0) {
+      const validModels = validateModelSelections(selectedModels, models);
+      if (validModels.length !== selectedModels.length) {
+        setSelectedModels(validModels);
+      }
+    }
+    // Validate selectedModel exists in available models
+    if (models.length > 0 && !models.find(m => m.id === selectedModel)) {
+      setSelectedModel(models[0].id);
+    }
+  }, [models]);
+
+  // Auto-save preferences when they change
+  useEffect(() => {
+    const preferences = {
+      systemPrompt,
+      selectedModel,
+      selectedModels,
+      multiModelMode
+    };
+    savePreferences(preferences);
+  }, [systemPrompt, selectedModel, selectedModels, multiModelMode]);
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -190,7 +222,7 @@ function ChatInterface() {
     <div className="chat-container">
       <header className="chat-header">
         <div className="header-top">
-          <h1>🤖 AI Chat Assistant</h1>
+          <h4>🤖 AI Chat Assistant</h4>
           <div className="header-actions">
             <button
               onClick={() => setShowSystemPrompt(!showSystemPrompt)}
