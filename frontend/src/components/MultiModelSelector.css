@@ -1,0 +1,144 @@
+.multi-model-selector {
+  width: 100%;
+}
+
+.multi-model-selector > label {
+  display: block;
+  margin-bottom: var(--spacing-md);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.selection-count {
+  display: inline-block;
+  margin-left: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: var(--primary-gradient);
+  color: white;
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  font-weight: 600;
+  animation: scaleIn 0.2s ease;
+}
+
+.validation-message {
+  margin: var(--spacing-md) 0 0 0;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+  animation: slideIn 0.3s ease;
+}
+
+.validation-message.warning {
+  background: rgba(245, 158, 11, 0.1);
+  border-left: 4px solid var(--warning-color);
+  color: #d97706;
+}
+
+.validation-message.info {
+  background: rgba(102, 126, 234, 0.1);
+  border-left: 4px solid var(--primary-color);
+  color: #5a67d8;
+}
+
+/* react-select custom overrides */
+.model-select-dropdown {
+  font-size: 1rem;
+}
+
+.select__control {
+  transition: all 0.3s ease !important;
+}
+
+.select__control:hover {
+  transform: translateY(-1px);
+}
+
+.select__control--is-focused {
+  border-color: var(--primary-color) !important;
+}
+
+.select__multi-value {
+  margin: 4px !important;
+  transition: all 0.2s ease !important;
+}
+
+.select__multi-value:hover {
+  transform: scale(1.05);
+}
+
+.select__input-container {
+  color: var(--text-primary) !important;
+}
+
+.select__menu {
+  z-index: 1000 !important;
+  animation: fadeIn 0.2s ease;
+}
+
+.select__option {
+  transition: all 0.2s ease !important;
+}
+
+.select__option--is-selected {
+  background-color: #667eea !important;
+}
+
+.select__option--is-focused {
+  background-color: rgba(102, 126, 234, 0.1) !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .multi-model-selector > label {
+    font-size: 0.95rem;
+  }
+  
+  .selection-count {
+    font-size: 0.8rem;
+    padding: 2px 8px;
+  }
+  
+  .select__multi-value {
+    font-size: 0.8rem !important;
+  }
+  
+  .select__multi-value__label {
+    font-size: 0.8rem !important;
+    padding: 3px 6px !important;
+  }
+}

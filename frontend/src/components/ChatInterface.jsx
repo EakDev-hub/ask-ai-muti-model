@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { sendMessage, getModels, sendMultiModelMessage } from '../services/api';
 import ReactMarkdown from 'react-markdown';
+import MultiModelSelector from './MultiModelSelector';
 import './ChatInterface.css';
 
 function ChatInterface() {
@@ -98,19 +99,6 @@ function ChatInterface() {
     }
   };
 
-  const handleModelSelection = (modelId) => {
-    setSelectedModels(prev => {
-      if (prev.includes(modelId)) {
-        return prev.filter(id => id !== modelId);
-      } else if (prev.length < 4) {
-        return [...prev, modelId];
-      } else {
-        setError('Maximum 4 models allowed');
-        setTimeout(() => setError(null), 3000);
-        return prev;
-      }
-    });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -279,34 +267,14 @@ function ChatInterface() {
               </div>
             </div>
             
-            <label>
-              Select Models (2-4):
-              <span className="selection-count">{selectedModels.length} selected</span>
-            </label>
-            
-            <div className="model-grid">
-              {models.map(model => (
-                <button
-                  key={model.id}
-                  className={`model-card ${selectedModels.includes(model.id) ? 'selected' : ''} ${
-                    selectedModels.length >= 4 && !selectedModels.includes(model.id) ? 'disabled' : ''
-                  }`}
-                  onClick={() => handleModelSelection(model.id)}
-                  disabled={loading || (selectedModels.length >= 4 && !selectedModels.includes(model.id))}
-                >
-                  <div className="model-card-header">
-                    {selectedModels.includes(model.id) && (
-                      <span className="check-icon">✓</span>
-                    )}
-                  </div>
-                  <div className="model-card-name">{model.name}</div>
-                </button>
-              ))}
-            </div>
-            
-            <p className="helper-text">
-              💡 Tip: Select 2-4 models to compare their responses side-by-side
-            </p>
+            <MultiModelSelector
+              models={models}
+              selectedModels={selectedModels}
+              onChange={setSelectedModels}
+              disabled={loading}
+              maxModels={4}
+              minModels={2}
+            />
           </div>
         )}
       </div>
