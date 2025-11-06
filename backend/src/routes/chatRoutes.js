@@ -11,6 +11,9 @@ router.post('/chat/multi-model', chatController.sendMultiModelMessage);
 // Summarization endpoint - summarize multiple model responses
 router.post('/chat/summarize', chatController.summarizeResponses);
 
+// Batch processing endpoint - process multiple photos
+router.post('/chat/batch', chatController.processBatch);
+
 // Models endpoint - get available models
 router.get('/models', chatController.getModels);
 

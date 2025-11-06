@@ -46,4 +46,18 @@ export const sendMultiModelMessage = async (message, image, models, systemPrompt
   }
 };
 
+export const processBatch = async (photos, model, prompt, systemPrompt) => {
+  try {
+    const response = await api.post('/chat/batch', {
+      photos,
+      model,
+      prompt,
+      systemPrompt
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response?.data?.error || error.message || 'Failed to process batch';
+  }
+};
+
 export default api;

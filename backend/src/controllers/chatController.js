@@ -102,3 +102,49 @@ exports.summarizeResponses = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.processBatch = async (req, res, next) => {
+  try {
+    const { photos, model, prompt, systemPrompt } = req.body;
+
+    // Validation
+    if (!photos || !Array.isArray(photos) || photos.length === 0) {
+      return res.status(400).json({
+        error: 'Photos array is required'
+      });
+    }
+
+    if (!model) {
+      return res.status(400).json({
+        error: 'Model is required'
+      });
+    }
+
+    if (!prompt) {
+      return res.status(400).json({
+        error: 'Prompt is required'
+      });
+    }
+
+    // Validate each photo has name and data
+    for (const photo of photos) {
+      if (!photo.name || !photo.data) {
+        return res.status(400).json({
+          error: 'Each photo must have name and data fields'
+        });
+      }
+    }
+
+    // Call batch processing service
+    const result = await openRouterService.processBatchPhotos(
+      photos,
+      model,
+      prompt,
+      systemPrompt
+    );
+
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};

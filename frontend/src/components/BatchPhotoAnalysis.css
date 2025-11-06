@@ -1,0 +1,205 @@
+.batch-analysis-container {
+  flex: 1;
+  overflow-y: auto;
+  background: #f5f7fa;
+}
+
+.batch-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.batch-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.batch-header h2 {
+  font-size: 2rem;
+  color: #2d3748;
+  margin-bottom: 10px;
+}
+
+.batch-header p {
+  font-size: 1.1rem;
+  color: #718096;
+}
+
+/* Configuration Section */
+.config-section {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.config-section h3 {
+  font-size: 1.3rem;
+  color: #2d3748;
+  margin-bottom: 20px;
+}
+
+.config-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.model-select,
+.prompt-input,
+.system-prompt-input {
+  padding: 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.model-select:focus,
+.prompt-input:focus,
+.system-prompt-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.model-select:disabled,
+.prompt-input:disabled,
+.system-prompt-input:disabled {
+  background: #f7fafc;
+  cursor: not-allowed;
+}
+
+.prompt-input {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.system-prompt-toggle {
+  background: transparent;
+  border: none;
+  color: #667eea;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  padding: 8px 0;
+  font-size: 0.95rem;
+}
+
+.system-prompt-toggle:hover {
+  color: #764ba2;
+}
+
+.system-prompt-input {
+  margin-top: 10px;
+  resize: vertical;
+}
+
+/* Error Banner */
+.error-banner {
+  background: #fed7d7;
+  color: #c53030;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border-left: 4px solid #c53030;
+  font-weight: 500;
+}
+
+/* Action Section */
+.action-section {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-large {
+  padding: 15px 40px;
+  font-size: 1.1rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-success {
+  background: #48bb78;
+  color: white;
+}
+
+.btn-success:hover {
+  background: #38a169;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .batch-content {
+    padding: 20px 15px;
+  }
+
+  .batch-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .config-section,
+  .upload-section,
+  .progress-section,
+  .results-section {
+    padding: 20px;
+  }
+
+  .action-section {
+    flex-direction: column;
+  }
+
+  .btn-large {
+    width: 100%;
+  }
+}

@@ -1,13 +1,21 @@
-import { useState } from 'react'
-import ChatInterface from './components/ChatInterface'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navigation from './components/Navigation';
+import ChatInterface from './components/ChatInterface';
+import BatchPhotoAnalysis from './components/BatchPhotoAnalysis';
+import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <ChatInterface />
-    </div>
-  )
+    <Router>
+      <div className="App">
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<ChatInterface />} />
+          <Route path="/batch" element={<BatchPhotoAnalysis />} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
-export default App
+export default App;

@@ -29,6 +29,14 @@ const config = {
     defaultSummaryPrompt: 'Compare and synthesize these responses into a comprehensive answer. Provide a unified, coherent response that captures the key insights from all models.'
   },
 
+  // Batch Processing Configuration
+  batch: {
+    maxPhotos: 20,
+    maxConcurrent: 5,
+    timeout: 120000, // 2 minutes per photo
+    maxTotalSize: 50 * 1024 * 1024 // 50MB total
+  },
+
   // CORS Configuration
   cors: {
     origin: process.env.FRONTEND_URL || 'http://localhost:5173',

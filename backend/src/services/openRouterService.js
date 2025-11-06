@@ -194,10 +194,104 @@ class OpenRouterService {
     }
   }
 
+  async processBatchPhotos(photos, model, prompt, systemPrompt) {
+    // Validate inputs
+    if (!Array.isArray(photos) || photos.length === 0) {
+      throw new Error('Photos array is required');
+    }
+
+    if (photos.length > config.batch.maxPhotos) {
+      throw new Error(`Maximum ${config.batch.maxPhotos} photos allowed per batch`);
+    }
+
+    if (!model) {
+      throw new Error('Model is required');
+    }
+
+    if (!prompt) {
+      throw new Error('Prompt is required');
+    }
+
+    // Process photos in batches with concurrency limit
+    const processPhoto = async (photo) => {
+      const startTime = Date.now();
+      
+      try {
+        const result = await this.sendChatRequest(
+          prompt,
+          photo.data,
+          model,
+          systemPrompt
+        );
+
+        return {
+          photoName: photo.name,
+          prompt: prompt,
+          response: result.response,
+          success: true,
+          model: result.model,
+          usage: result.usage,
+          processingTime: Date.now() - startTime
+        };
+      } catch (error) {
+        return {
+          photoName: photo.name,
+          prompt: prompt,
+          response: null,
+          success: false,
+          error: error.message,
+          processingTime: Date.now() - startTime
+        };
+      }
+    };
+
+    // Process in batches with concurrency limit
+    const batchSize = config.batch.maxConcurrent;
+    const results = [];
+    
+    for (let i = 0; i < photos.length; i += batchSize) {
+      const batch = photos.slice(i, i + batchSize);
+      const batchResults = await Promise.allSettled(
+        batch.map(photo => processPhoto(photo))
+      );
+      
+      // Transform settled promises to results
+      const transformedResults = batchResults.map((result, index) => {
+        if (result.status === 'fulfilled') {
+          return result.value;
+        } else {
+          return {
+            photoName: batch[index].name,
+            prompt: prompt,
+            response: null,
+            success: false,
+            error: result.reason?.message || 'Processing failed'
+          };
+        }
+      });
+      
+      results.push(...transformedResults);
+    }
+
+    // Calculate summary
+    const successful = results.filter(r => r.success).length;
+    const failed = results.filter(r => !r.success).length;
+
+    return {
+      results: results,
+      summary: {
+        total: photos.length,
+        successful: successful,
+        failed: failed,
+        processingTime: results.reduce((sum, r) => sum + (r.processingTime || 0), 0)
+      }
+    };
+  }
+
   handleError(error) {
     if (error.response) {
-      const errorMessage = error.response.data.error?.message || 
-                          error.response.data.message || 
+      const errorMessage = error.response.data.error?.message ||
+                          error.response.data.message ||
                           error.response.statusText;
       return new Error(`OpenRouter API Error: ${errorMessage}`);
     } else if (error.request) {
