@@ -11,6 +11,7 @@ A full-stack Node.js application that integrates with OpenRouter API to provide 
 
 - 💬 **Chat with AI** - Send text messages to AI models and get intelligent responses
 - 🖼️ **Image Analysis** - Upload images and have AI analyze and describe them
+- 📊 **Batch Photo Analysis** - Upload multiple photos (up to 20) and analyze them all at once with CSV export
 - 🎯 **Model Selection** - Choose from various AI models available through OpenRouter
 - 🔀 **Multi-Model Queries** - Query 2-4 AI models simultaneously and compare responses
 - 📋 **AI Summarization** - Synthesize multiple model responses into one comprehensive answer
@@ -248,6 +249,44 @@ Query multiple AI models simultaneously and compare their responses:
 - Research questions needing diverse viewpoints
 
 For detailed instructions, see [Multi-Model Guide](./MD_file/MULTI_MODEL_GUIDE.md)
+
+### Batch Photo Analysis (NEW!)
+
+Process multiple photos at once with the same AI model and prompt:
+
+1. Click the **📊 Batch Analysis** tab in the navigation
+2. Select an AI model from the dropdown
+3. Enter your analysis prompt (e.g., "Describe this image in detail")
+4. Upload multiple photos (up to 20):
+   - Drag & drop photos into the upload zone, or
+   - Click to browse and select files
+5. Review photo previews (remove unwanted photos if needed)
+6. Click **🚀 Start Analysis** to process all photos
+7. Watch real-time progress with status indicators
+8. Review results in the table with expandable rows
+9. Click **📥 Export to CSV** to download results
+
+**CSV Export Format:**
+- Picture Name
+- Response (AI analysis)
+
+**Features:**
+- Upload up to 20 photos per batch
+- Supports JPG, PNG, GIF, WebP formats
+- Max 5MB per photo, 50MB total
+- Parallel processing (5 photos at a time)
+- Real-time progress tracking
+- Search and filter results
+- Individual photo status indicators (✓ success, ✗ failed)
+
+**Perfect for:**
+- Cataloging photo libraries
+- Product inventory analysis
+- Real estate property descriptions
+- Document digitization
+- Bulk image captioning
+
+For detailed instructions, see [Batch Analysis User Guide](./MD_file/BATCH_ANALYSIS_USER_GUIDE.md)
 
 ## 🌐 API Endpoints
 

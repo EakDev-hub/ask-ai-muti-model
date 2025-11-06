@@ -10,10 +10,9 @@ export const exportToCSV = (results, filename = null) => {
     throw new Error('No results to export');
   }
 
-  // Prepare data for CSV
+  // Prepare data for CSV (Picture Name and Response only)
   const csvData = results.map(result => ({
     'Picture Name': result.photoName || '',
-    'Prompt': result.prompt || '',
     'Response': result.response || (result.error ? `Error: ${result.error}` : 'No response')
   }));
 
