@@ -58,7 +58,8 @@ class IDCardService {
           photo.name,
           detection,
           localization,
-          ocrResults
+          ocrResults,
+          photo.data  // Pass original image for visualization
         );
         
         results.push({
@@ -346,9 +347,25 @@ Rules:
    * @param {Object} ocrResults - OCR results
    * @returns {Object} Formatted result
    */
-  formatResult(imageName, detection, localization, ocrResults) {
+  formatResult(imageName, detection, localization, ocrResults, originalImageBase64) {
+    // Build bounding boxes object for visualization
+    const boundingBoxes = {};
+    
+    if (localization && localization.fields) {
+      for (const [fieldName, fieldData] of Object.entries(localization.fields)) {
+        if (fieldData.bbox && fieldData.bbox !== null) {
+          boundingBoxes[fieldName] = {
+            bbox: fieldData.bbox,
+            confidence: fieldData.confidence || 0,
+            text: ocrResults[fieldName]?.text || ''
+          };
+        }
+      }
+    }
+    
     return {
       imageName: imageName,
+      originalImage: originalImageBase64, // Include original image for visualization
       idcardConfidentailPercent: detection.confidence,
       
       titleEn: ocrResults.titleEn?.text || '',
@@ -377,7 +394,10 @@ Rules:
       dateOfBirthConfidentailPercent: Math.max(
         ocrResults.dateOfBirthEn?.confidence || 0,
         ocrResults.dateOfBirthTh?.confidence || 0
-      )
+      ),
+      
+      // Include bounding boxes for visualization
+      boundingBoxes: boundingBoxes
     };
   }
 }

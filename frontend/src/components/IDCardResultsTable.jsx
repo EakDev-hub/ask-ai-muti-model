@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { exportIDCardToCSV } from '../utils/idCardCsvExport';
+import IDCardAnnotationModal from './IDCardAnnotationModal';
 import './IDCardResultsTable.css';
 
 function IDCardResultsTable({ results, onExport }) {
   const [expandedRows, setExpandedRows] = useState(new Set());
+  const [selectedResult, setSelectedResult] = useState(null);
 
   const toggleRowExpansion = (imageName) => {
     const newExpanded = new Set(expandedRows);
@@ -64,6 +66,7 @@ function IDCardResultsTable({ results, onExport }) {
           <table className="results-table">
             <thead>
               <tr>
+                <th>Actions</th>
                 <th>Image</th>
                 <th>ID Card %</th>
                 <th>Title EN</th>
@@ -87,6 +90,15 @@ function IDCardResultsTable({ results, onExport }) {
             <tbody>
               {successfulResults.map((result) => (
                 <tr key={result.imageName} className="data-row">
+                  <td>
+                    <button
+                      className="btn-view-annotations"
+                      onClick={() => setSelectedResult(result)}
+                      title="View field annotations"
+                    >
+                      🔍 View
+                    </button>
+                  </td>
                   <td className="image-name">{result.imageName}</td>
                   <td className={getConfidenceClass(result.idcardConfidentailPercent)}>
                     {result.idcardConfidentailPercent}%
@@ -143,6 +155,14 @@ function IDCardResultsTable({ results, onExport }) {
             ))}
           </div>
         </div>
+      )}
+
+      {/* Annotation Modal */}
+      {selectedResult && (
+        <IDCardAnnotationModal
+          result={selectedResult}
+          onClose={() => setSelectedResult(null)}
+        />
       )}
     </div>
   );

@@ -24,10 +24,10 @@ class ImageUtils {
 
       // Convert normalized coordinates to pixels
       const [ymin, xmin, ymax, xmax] = bbox;
-      const left = Math.round(xmin * width) - 10;
-      const top = Math.round(ymin * height) + 10;
-      const cropWidth = Math.round((xmax - xmin) * width) + 10;
-      const cropHeight = Math.round((ymax - ymin) * height) - 10;
+      const left = Math.round(xmin * width);
+      const top = Math.round(ymin * height);
+      const cropWidth = Math.round((xmax - xmin) * width);
+      const cropHeight = Math.round((ymax - ymin) * height);
 
       // Ensure dimensions are valid
       if (cropWidth <= 0 || cropHeight <= 0) {
