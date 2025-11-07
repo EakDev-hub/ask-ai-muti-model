@@ -9,17 +9,23 @@ function Navigation() {
           <h1>AI Photo Analyzer</h1>
         </div>
         <div className="nav-tabs">
-          <NavLink 
-            to="/" 
+          <NavLink
+            to="/"
             className={({ isActive }) => isActive ? 'nav-tab active' : 'nav-tab'}
           >
             💬 Chat
           </NavLink>
-          <NavLink 
-            to="/batch" 
+          <NavLink
+            to="/batch"
             className={({ isActive }) => isActive ? 'nav-tab active' : 'nav-tab'}
           >
             📊 Batch Analysis
+          </NavLink>
+          <NavLink
+            to="/idcard"
+            className={({ isActive }) => isActive ? 'nav-tab active' : 'nav-tab'}
+          >
+            🪪 ID Card Analysis
           </NavLink>
         </div>
       </div>

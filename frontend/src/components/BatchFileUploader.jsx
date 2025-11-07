@@ -41,7 +41,7 @@ function BatchFileUploader({ photos, onFilesSelected, onRemovePhoto, onClearAll,
         <h3>📁 Upload Photos</h3>
         {photos.length > 0 && (
           <div className="upload-stats">
-            <span className="photo-count">{photos.length} / 20 photos</span>
+            <span className="photo-count">{photos.length} / 100 photos</span>
             {photos.length > 0 && !disabled && (
               <button onClick={onClearAll} className="btn-clear-all">
                 Clear All
@@ -74,7 +74,7 @@ function BatchFileUploader({ photos, onFilesSelected, onRemovePhoto, onClearAll,
             {disabled ? 'Processing...' : 'Drag & drop photos here or click to browse'}
           </p>
           <p className="drop-hint">
-            Supported: JPG, PNG, GIF, WebP • Max 5MB per file • Up to 20 files
+            Supported: JPG, PNG, GIF, WebP • Max 5MB per file • Up to 100 files • Auto-resize to 720p
           </p>
         </div>
       </div>

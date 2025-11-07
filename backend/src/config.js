@@ -31,10 +31,40 @@ const config = {
 
   // Batch Processing Configuration
   batch: {
-    maxPhotos: 20,
+    maxPhotos: 100,
     maxConcurrent: 5,
     timeout: 120000, // 2 minutes per photo
-    maxTotalSize: 50 * 1024 * 1024 // 50MB total
+    maxTotalSize: 100 * 1024 * 1024 // 100MB total
+  },
+
+  // ID Card Processing Configuration
+  idCard: {
+    maxPhotos: 50,
+    maxConcurrent: 5,
+    timeout: 180000, // 3 minutes per photo (3 steps)
+    
+    // Step timeouts
+    detectionTimeout: 30000,
+    localizationTimeout: 60000,
+    ocrTimeout: 90000,
+    
+    // Confidence thresholds
+    minDetectionConfidence: 70,
+    minLocalizationConfidence: 60,
+    minOCRConfidence: 50,
+    
+    // Supported fields
+    supportedFields: [
+      'identityNumber',
+      'titleTh',
+      'firstNameTh',
+      'lastNameTh',
+      'titleEn',
+      'firstNameEn',
+      'lastNameEn',
+      'dateOfBirthEn',
+      'dateOfBirthTh'
+    ]
   },
 
   // CORS Configuration

@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const chatRoutes = require('./routes/chatRoutes');
+const idCardRoutes = require('./routes/idCardRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Routes
 app.use('/api', chatRoutes);
+app.use('/api/idcard', idCardRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

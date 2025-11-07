@@ -51,6 +51,70 @@ export const fileToBase64 = (file) => {
 };
 
 /**
+ * Resize image to 720p (1280x720) if larger, maintaining aspect ratio
+ */
+export const resizeImageTo720p = async (file) => {
+  const MAX_WIDTH = 1280;
+  const MAX_HEIGHT = 720;
+  
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    
+    reader.onload = (e) => {
+      const img = new Image();
+      
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+        
+        // Only resize if image is larger than 720p
+        if (width <= MAX_WIDTH && height <= MAX_HEIGHT) {
+          // Image is already smaller, return original
+          resolve(e.target.result);
+          return;
+        }
+        
+        // Calculate new dimensions maintaining aspect ratio
+        const aspectRatio = width / height;
+        
+        if (aspectRatio > MAX_WIDTH / MAX_HEIGHT) {
+          // Width is the limiting factor
+          width = MAX_WIDTH;
+          height = Math.round(MAX_WIDTH / aspectRatio);
+        } else {
+          // Height is the limiting factor
+          height = MAX_HEIGHT;
+          width = Math.round(MAX_HEIGHT * aspectRatio);
+        }
+        
+        // Create canvas and resize
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        // Convert to data URL
+        resolve(canvas.toDataURL(file.type, 0.92)); // 0.92 quality for good balance
+      };
+      
+      img.onerror = () => {
+        reject(new Error('Failed to load image for resizing'));
+      };
+      
+      img.src = e.target.result;
+    };
+    
+    reader.onerror = () => {
+      reject(new Error('Failed to read file for resizing'));
+    };
+    
+    reader.readAsDataURL(file);
+  });
+};
+
+/**
  * Generate thumbnail preview from file
  */
 export const generateThumbnail = async (file, maxWidth = 150, maxHeight = 150) => {
@@ -125,7 +189,7 @@ export const generateFileId = () => {
 /**
  * Validate batch of files
  */
-export const validateBatch = (files, maxFiles = 20, maxTotalSize = 50 * 1024 * 1024) => {
+export const validateBatch = (files, maxFiles = 100, maxTotalSize = 100 * 1024 * 1024) => {
   const errors = [];
 
   if (!files || files.length === 0) {

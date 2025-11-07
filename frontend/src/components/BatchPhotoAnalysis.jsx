@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getModels, processBatch } from '../services/api';
-import { validateFile, fileToBase64, generateFileId, validateBatch, formatFileSize } from '../utils/fileHandler';
+import { validateFile, fileToBase64, resizeImageTo720p, generateFileId, validateBatch, formatFileSize } from '../utils/fileHandler';
 import { exportToCSV } from '../utils/csvExport';
 import BatchFileUploader from './BatchFileUploader';
 import BatchProgressTracker from './BatchProgressTracker';
@@ -44,7 +44,7 @@ function BatchPhotoAnalysis() {
 
   const handleFilesSelected = async (files) => {
     // Validate batch
-    const validation = validateBatch(files, 20);
+    const validation = validateBatch(files, 100);
     if (!validation.valid) {
       setError(validation.errors.join(', '));
       setTimeout(() => setError(null), 5000);
@@ -57,12 +57,14 @@ function BatchPhotoAnalysis() {
       const fileValidation = validateFile(file);
       if (fileValidation.valid) {
         try {
-          const base64 = await fileToBase64(file);
+          // Resize image to 720p if needed
+          const resizedBase64 = await resizeImageTo720p(file);
+          
           newPhotos.push({
             id: generateFileId(),
             file: file,
             name: file.name,
-            preview: base64,
+            preview: resizedBase64,
             size: file.size,
             status: 'pending',
             response: null,

@@ -6,11 +6,12 @@ The Batch Photo Analysis feature allows you to upload multiple photos at once an
 
 ## Features
 
-✅ Upload up to 20 photos simultaneously
+✅ Upload up to 100 photos simultaneously
+✅ Automatic image resize to 720p (1280x720) for optimal processing
 ✅ Support for JPG, PNG, GIF, and WebP formats
 ✅ Drag & drop or browse to select files
 ✅ Real-time progress tracking
-✅ Parallel processing (5 photos at a time)
+✅ Parallel processing (5 photos at a time, sequential to 100)
 ✅ Export results to CSV (Picture Name, Response)
 ✅ Individual photo status indicators
 ✅ Search and filter results
@@ -53,15 +54,17 @@ You have two options:
 - Click "Open" to add them
 
 **Requirements:**
-- ✅ Maximum 20 photos per batch
+- ✅ Maximum 100 photos per batch
 - ✅ Supported formats: JPG, PNG, GIF, WebP
-- ✅ Maximum 5MB per photo
-- ✅ Total batch size limit: 50MB
+- ✅ Maximum 5MB per photo (before resize)
+- ✅ Images automatically resized to 720p (1280x720) if larger
+- ✅ Total batch size limit: 100MB
 
 ### Step 5: Review & Remove Photos
 
 - Preview thumbnails appear below the upload zone
-- Each photo shows its filename and size
+- Each photo shows its filename and original size
+- Images are automatically resized to 720p for optimal AI processing
 - Click the **✕** button on any photo to remove it
 - Click **"Clear All"** to remove all photos at once
 
@@ -85,7 +88,7 @@ While processing, you'll see:
   - ✓ Success (green)
   - ✗ Failed (red)
 
-Processing happens in parallel (5 photos at a time) for faster results.
+Processing happens in parallel (5 photos at a time) and continues sequentially up to 100 photos for faster results.
 
 ### Step 8: Review Results
 
@@ -135,9 +138,10 @@ photo3.jpg,"I can see a person walking their dog in a park..."
    - Gemini: Fast and reliable for general analysis
 
 3. **Optimize Photo Sizes**
-   - Compress large photos before uploading
-   - Smaller files = faster processing
-   - 1-2MB per photo is ideal
+   - Images are automatically resized to 720p (1280x720)
+   - Large images (>720p) are optimized automatically
+   - Original aspect ratio is maintained during resize
+   - No need to manually resize before upload
 
 4. **Batch Similar Photos**
    - Use the same type of prompt for related photos
@@ -171,9 +175,9 @@ photo3.jpg,"I can see a person walking their dog in a park..."
 
 **Problem:** Files won't upload
 - ✅ Check file format (must be JPG, PNG, GIF, or WebP)
-- ✅ Ensure file size is under 5MB
-- ✅ Verify you haven't exceeded 20 photos
-- ✅ Check total batch size is under 50MB
+- ✅ Ensure file size is under 5MB (before auto-resize)
+- ✅ Verify you haven't exceeded 100 photos
+- ✅ Check total batch size is under 100MB
 
 **Problem:** Drag & drop not working
 - ✅ Try clicking the upload zone instead
@@ -189,9 +193,10 @@ photo3.jpg,"I can see a person walking their dog in a park..."
 - ✅ Ensure photos are clear and not too dark
 
 **Problem:** Processing takes too long
-- ✅ Normal: ~30-60 seconds for 20 photos
+- ✅ Normal: ~2-3 minutes for 100 photos (5 concurrent)
+- ✅ Processing happens 5 at a time sequentially
 - ✅ Check your internet connection
-- ✅ Try reducing batch size
+- ✅ Try reducing batch size if needed
 - ✅ Some models are slower than others
 
 **Problem:** "No response from AI"
@@ -215,12 +220,14 @@ photo3.jpg,"I can see a person walking their dog in a park..."
 
 ## Limitations
 
-- **Maximum 20 photos** per batch
-- **5MB maximum** per photo file
-- **50MB total** batch size limit
+- **Maximum 100 photos** per batch
+- **5MB maximum** per photo file (before auto-resize)
+- **100MB total** batch size limit
+- Images **automatically resized** to 720p (1280x720) if larger
 - Only **image files** supported (no videos or documents)
 - Same **prompt applies** to all photos in batch
 - Processing uses **single model** per batch
+- **5 parallel requests** at a time, sequential to 100
 
 ## Keyboard Shortcuts
 
@@ -245,14 +252,17 @@ A: Currently, the same prompt is applied to all photos in a batch. For different
 **Q: Can I use multiple AI models at once?**
 A: Currently, one model per batch. For multi-model comparison, use the Chat interface's multi-model feature.
 
+**Q: Are my photos resized permanently?**
+A: No, only the data sent to AI is resized to 720p. Your original files are not modified. The resize happens in-browser before upload.
+
 **Q: What happens if my batch partially fails?**
 A: Successful photos will still show results. Failed photos will show error messages. You can export partial results or retry failed photos.
 
 **Q: Can I pause or cancel processing?**
-A: Not currently. However, processing is fast (usually under 1 minute for 20 photos).
+A: Not currently. However, processing runs efficiently (5 photos at a time up to 100 photos).
 
 **Q: Is there a limit to how many batches I can process?**
-A: No limit on batches, but each batch is limited to 20 photos. API usage may be subject to rate limits.
+A: No limit on batches, but each batch is limited to 100 photos. API usage may be subject to rate limits.
 
 **Q: Can I save my prompts or configurations?**
 A: Not currently, but your last used model selection is saved automatically.
@@ -272,10 +282,11 @@ If you encounter issues not covered in this guide:
 ## Updates & Changes
 
 **Current Version Features:**
-- Multi-photo upload with drag & drop
+- Multi-photo upload with drag & drop (up to 100 photos)
+- Automatic image resize to 720p for optimal processing
 - Real-time progress tracking
 - CSV export with Picture Name and Response
-- Up to 20 photos per batch
-- Parallel processing for faster results
+- Parallel processing (5 concurrent, sequential to 100)
+- Smart image optimization
 
 For feature requests or bug reports, please check the project repository.

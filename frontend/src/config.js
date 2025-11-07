@@ -46,6 +46,35 @@ const config = {
     modelSelection: true,
     systemPromptEdit: true,
     markdownSupport: true
+  },
+
+  // ID Card Processing Configuration
+  idCard: {
+    maxPhotos: 50,
+    supportedFormats: ['image/jpeg', 'image/jpg', 'image/png'],
+    maxFileSize: 10 * 1024 * 1024, // 10MB
+    
+    // Required columns for CSV export
+    csvColumns: [
+      'imageName',
+      'idcardConfidentailPercent',
+      'titleEn',
+      'titleEnConfidentailPercent',
+      'titleTh',
+      'titleThConfidentailPercent',
+      'firstNameEn',
+      'firstNameEnConfidentailPercent',
+      'firstNameTh',
+      'firstNameThConfidentailPercent',
+      'lastNameEn',
+      'lastNameEnConfidentailPercent',
+      'lastNameTh',
+      'lastNameThConfidentailPercent',
+      'identityNumber',
+      'identityNumberConfidentailPercent',
+      'dateOfBirth',
+      'dateOfBirthConfidentailPercent'
+    ]
   }
 };
 

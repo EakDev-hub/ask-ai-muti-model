@@ -60,4 +60,25 @@ export const processBatch = async (photos, model, prompt, systemPrompt) => {
   }
 };
 
+export const processIDCards = async (photos, models) => {
+  try {
+    const response = await api.post('/idcard/process', {
+      photos,
+      models
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response?.data?.error || error.message || 'Failed to process ID cards';
+  }
+};
+
+export const getRecommendedModels = async () => {
+  try {
+    const response = await api.get('/idcard/recommended-models');
+    return response.data;
+  } catch (error) {
+    throw error.response?.data?.error || error.message || 'Failed to fetch recommended models';
+  }
+};
+
 export default api;

@@ -11,7 +11,8 @@ A full-stack Node.js application that integrates with OpenRouter API to provide 
 
 - 💬 **Chat with AI** - Send text messages to AI models and get intelligent responses
 - 🖼️ **Image Analysis** - Upload images and have AI analyze and describe them
-- 📊 **Batch Photo Analysis** - Upload multiple photos (up to 20) and analyze them all at once with CSV export
+- 📊 **Batch Photo Analysis** - Upload multiple photos (up to 100) with auto-resize to 720p and CSV export
+- 🪪 **ID Card Analysis** - NEW! Extract information from ID cards using 3-step AI pipeline (Detection → Localization → OCR)
 - 🎯 **Model Selection** - Choose from various AI models available through OpenRouter
 - 🔀 **Multi-Model Queries** - Query 2-4 AI models simultaneously and compare responses
 - 📋 **AI Summarization** - Synthesize multiple model responses into one comprehensive answer
@@ -257,7 +258,7 @@ Process multiple photos at once with the same AI model and prompt:
 1. Click the **📊 Batch Analysis** tab in the navigation
 2. Select an AI model from the dropdown
 3. Enter your analysis prompt (e.g., "Describe this image in detail")
-4. Upload multiple photos (up to 20):
+4. Upload multiple photos (up to 100):
    - Drag & drop photos into the upload zone, or
    - Click to browse and select files
 5. Review photo previews (remove unwanted photos if needed)
@@ -271,10 +272,11 @@ Process multiple photos at once with the same AI model and prompt:
 - Response (AI analysis)
 
 **Features:**
-- Upload up to 20 photos per batch
+- Upload up to 100 photos per batch
+- Automatic image resize to 720p (1280x720) for optimal processing
 - Supports JPG, PNG, GIF, WebP formats
-- Max 5MB per photo, 50MB total
-- Parallel processing (5 photos at a time)
+- Max 5MB per photo (before resize), 100MB total
+- Parallel processing (5 photos at a time, sequential to 100)
 - Real-time progress tracking
 - Search and filter results
 - Individual photo status indicators (✓ success, ✗ failed)
@@ -287,6 +289,58 @@ Process multiple photos at once with the same AI model and prompt:
 - Bulk image captioning
 
 For detailed instructions, see [Batch Analysis User Guide](./MD_file/BATCH_ANALYSIS_USER_GUIDE.md)
+
+### ID Card Analysis (NEW!)
+
+Extract structured information from ID cards using a sophisticated 3-step AI pipeline:
+
+1. Click the **🪪 ID Card Analysis** tab in the navigation
+2. The system auto-selects recommended AI models for each step:
+   - **Detection Model** - Verifies if images contain ID cards
+   - **Localization Model** - Finds field locations with bounding boxes
+   - **OCR Model** - Extracts text from each field
+3. Upload ID card images (up to 50):
+   - Drag & drop images or click to browse
+   - Supports JPG, PNG formats
+   - Max 10MB per image
+4. Click **🚀 Start Processing** to begin the 3-step analysis
+5. Watch the progress indicator show each step:
+   - Step 1: Detection (verifying ID cards)
+   - Step 2: Localization (finding field positions)
+   - Step 3: OCR (extracting text)
+6. Review results in the comprehensive table
+7. Click **📥 Export to CSV** to download all extracted data
+
+**CSV Export includes 17 columns:**
+- Image name and overall confidence
+- Title, First Name, Last Name (Thai & English)
+- Identification Number
+- Date of Birth
+- Confidence percentage for each field
+
+**Features:**
+- 3-step AI pipeline for maximum accuracy
+- User-selectable models for each processing step
+- Automatic field detection and localization
+- Bounding box coordinates for all fields
+- Confidence scores for every extracted value
+- Support for Thai ID cards, passports, driver's licenses
+- Handles both Thai and English text
+- Color-coded confidence levels (High/Medium/Low)
+
+**Perfect for:**
+- Customer onboarding and KYC processes
+- Document digitization projects
+- Identity verification workflows
+- Bulk ID card data entry
+- Archive digitalization
+
+**Supported Fields:**
+- Identification Number
+- Names and Titles (Thai & English)
+- Date of Birth (multiple formats)
+
+For detailed instructions, see [ID Card Analysis User Guide](./MD_file/ID_CARD_USER_GUIDE.md)
 
 ## 🌐 API Endpoints
 
